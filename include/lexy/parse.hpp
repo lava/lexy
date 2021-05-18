@@ -172,6 +172,11 @@ public:
         else
         {
             // We're missing a callback overload.
+	    // Force `Args...` and `Production` to appear in the error output to
+	    // make debugging easier.
+	    static_cast<void>(std::tuple<Args...>::expected_overload_arguments);
+	    static_cast<void>(Production::failing_production);
+	    static_cast<void>(return_type_for<Production>::deduced_return_type_of_production);
             static_assert(_detail::error<Production, Args...>,
                           "missing callback overload for production");
         }
